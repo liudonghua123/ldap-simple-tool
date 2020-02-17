@@ -1,0 +1,13 @@
+{
+  "name": "ldap-simple-tool",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "ldap-authentication": "^2.1.2",
+    "ldapts": "^2.2.0",
+    "yargs": "^15.1.0"
+  }
+}
