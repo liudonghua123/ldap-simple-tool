@@ -10,6 +10,9 @@ const { checkPassword, hashPassword } = require('ldap-passwd');
 // https://alligator.io/nodejs/styling-output-command-line-node-scripts-chalk/
 const chalk = require('chalk');
 
+const { existsSync, readFileSync, createReadStream } = require('fs');
+const readline = require('readline');
+
 const { showHelp } = require('yargs');
 
 // https://github.com/yargs/yargs
@@ -33,9 +36,57 @@ const {
   ldap: { addr, baseDn, bindDn, bindPass, authFilter, attributes, tls, startTLS },
 } = require(`./${argv.file}`);
 
+const _parseUsernamePasswordFile = filePath => {
+  if (!existsSync(filePath)) {
+    console.info(chalk.bgRed.yellow.italic(`you provided filePath ${filePath} not exists!`));
+    return [];
+  }
+  return new Promise((resolve, reject) => {
+    const usernamePasswords = [];
+    let rl = readline.createInterface({
+      input: createReadStream(filePath),
+    });
+    rl.on('line', line => {
+      const splits = line.split(',');
+      usernamePasswords.push({
+        username: splits[0].trim(),
+        userPassword: splits[1].trim(),
+      });
+    });
+    rl.on('close', line => {
+      resolve(usernamePasswords);
+    });
+    rl.on('error', error => {
+      reject(error);
+    });
+  });
+};
+
+const _authSingle = async (client, username, userPassword) => {
+  console.info(chalk.bgGreen.blue.bold(`try to auth ${JSON.stringify({ username, userPassword })}!`));
+  const { searchEntries, searchReferences } = await client.search(baseDn, {
+    scope: 'sub',
+    filter: authFilter.replace('%s', username),
+  });
+  const searchEntry = searchEntries[0];
+  if (!searchEntry) {
+    console.info(chalk.bgRed.yellow.italic(`no user found!`));
+    return null;
+  }
+  if (searchEntries.length > 1) {
+    console.info(chalk.bgRed.yellow.italic(`multi user found, Use the first one!`));
+  }
+  const isPasswordMatch = checkPassword(userPassword, searchEntry.userPassword);
+  if (!isPasswordMatch) {
+    console.info(chalk.bgRed.yellow.italic(`user: ${username} password: ${userPassword} do not match`));
+    return null;
+  }
+  return searchEntry;
+};
+
 const check = async () => {
   const client = new Client({
-    url: `ldap${tls ? 's' : ''}://${addr}`,
+    url: `${tls ? 'ldaps' : 'ldap'}://${addr}`,
   });
   try {
     startTLS && client.startTLS();
@@ -51,31 +102,26 @@ const check = async () => {
 };
 
 const auth = async () => {
-  const [_, username, userPassword, usernameAttribute = 'uid'] = argv._;
+  const [_, username, userPassword] = argv._;
   const client = new Client({
-    url: `ldap${tls ? 's' : ''}://${addr}`,
+    url: `${tls ? 'ldaps' : 'ldap'}://${addr}`,
   });
   try {
     startTLS && client.startTLS();
     await client.bind(bindDn, bindPass);
-    const { searchEntries, searchReferences } = await client.search(baseDn, {
-      scope: 'sub',
-      filter: authFilter.replace('%s', username),
-    });
-    const searchEntry = searchEntries[0];
-    if (!searchEntry) {
-      console.info(chalk.bgRed.yellow.italic(`no user found!`));
-      return null;
+    // single search
+    if (userPassword) {
+      const searchEntry = await _authSingle(client, username, userPassword);
+      return searchEntry ? [searchEntry] : [];
     }
-    if (searchEntries.length > 1) {
-      console.info(chalk.bgRed.yellow.italic(`multi user found, Use the first one!`));
+    // multi search
+    else {
+      const filePath = username;
+      const usernamePasswords = await _parseUsernamePasswordFile(filePath);
+      return await Promise.all(
+        usernamePasswords.map(({ username, userPassword }) => _authSingle(client, username, userPassword))
+      );
     }
-    const isPasswordMatch = checkPassword(userPassword, searchEntry.userPassword);
-    if (!isPasswordMatch) {
-      console.info(chalk.bgRed.yellow.italic(`user password do not match`));
-      return null;
-    }
-    return searchEntry;
   } catch (error) {
     console.error(chalk.bgRed.yellow.italic(error));
     console.info(chalk.bgRed.yellow.italic('username and password do not match!'));
