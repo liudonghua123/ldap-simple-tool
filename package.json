@@ -6,8 +6,14 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^3.0.0",
-    "ldap-authentication": "^2.1.2",
+    "ldap-passwd": "^0.1.0",
     "ldapts": "^2.2.0",
     "yargs": "^15.1.0"
+  },
+  "pkg": {
+    "scripts": [
+      "*.json"
+    ],
+    "assets": []
   }
 }
