@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // https://github.com/ldapts/ldapts
 const { Client } = require('ldapts');
 // https://github.com/liudonghua123/ldap-passwd
