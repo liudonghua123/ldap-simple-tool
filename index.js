@@ -15,10 +15,10 @@ const { showHelp } = require('yargs');
 // https://github.com/yargs/yargs
 const argv = require('yargs')
   .usage('Usage: $0 <command> [options]')
-  .command('auth', 'Performs a admin user bind operation against the LDAP server')
-  .example('$0 auth', 'Test admin user login')
-  .command('login', 'Performs a normal user bind operation against the LDAP server')
-  .example('$0 login username password', 'Test normal user login')
+  .command('check', 'Performs a admin user bind operation against the LDAP server')
+  .example('$0 check', 'Test admin user login')
+  .command('auth', 'Performs a normal user bind operation against the LDAP server')
+  .example('$0 auth username password', 'Test normal user auth')
   .alias('f', 'file')
   .describe('f', 'the configuration file')
   .default('f', 'cfg.json')
@@ -33,7 +33,7 @@ const {
   ldap: { addr, baseDn, bindDn, bindPass, authFilter, attributes, tls, startTLS },
 } = require(`./${argv.file}`);
 
-const auth = async () => {
+const check = async () => {
   const client = new Client({
     url: `ldap${tls ? 's' : ''}://${addr}`,
   });
@@ -50,7 +50,7 @@ const auth = async () => {
   return false;
 };
 
-const login = async () => {
+const auth = async () => {
   const [_, username, userPassword, usernameAttribute = 'uid'] = argv._;
   const client = new Client({
     url: `ldap${tls ? 's' : ''}://${addr}`,
@@ -88,24 +88,24 @@ const login = async () => {
 (async () => {
   const [command] = argv._;
   switch (command) {
-    case 'auth':
-      let authenticated = await auth();
+    case 'check':
+      let authenticated = await check();
       if (authenticated) {
-        console.info(chalk.bgGreen.blue.bold('auth ok'));
+        console.info(chalk.bgGreen.blue.bold('check ok'));
       } else {
-        console.info(chalk.bgRed.yellow.italic('auth fail'));
+        console.info(chalk.bgRed.yellow.italic('check fail'));
       }
       break;
-    case 'login':
-      let authenticateInfo = await login();
+    case 'auth':
+      let authenticateInfo = await auth();
       if (authenticateInfo) {
         console.info(
           chalk.bgGreen.blue.bold(
-            `login ok, the user info is \n${chalk.bgBlue.magenta(JSON.stringify(authenticateInfo, null, 2))}`
+            `auth ok, the user info is \n${chalk.bgBlue.magenta(JSON.stringify(authenticateInfo, null, 2))}`
           )
         );
       } else {
-        console.info(chalk.bgRed.yellow.italic('login failed, please check the username or password'));
+        console.info(chalk.bgRed.yellow.italic('auth failed, please check the username or password'));
       }
       break;
     case undefined:
