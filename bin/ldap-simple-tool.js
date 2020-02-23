@@ -45,9 +45,13 @@ const {
 } = require(`${configFilePath}`);
 
 const filterAttributeEntries = (entries, attributes) => {
-  const result = {};
-  entries.forEach(entry => attributes.forEach(attribute => (result[attribute] = entry[attribute])));
-  return result;
+  const results = [];
+  entries.forEach(entry => {
+    const result = {};
+    attributes.forEach(attribute => (result[attribute] = entry[attribute]));
+    results.push(result);
+  });
+  return results;
 };
 
 (async () => {
