@@ -22,6 +22,13 @@
     "registry": "https://registry.npmjs.org",
     "access": "public"
   },
+  "scripts": {
+    "build": "npm run build-node && npm run build-windows && npm run build-linux && npm run build-macos",
+    "build-windows": "nexe -t windows bin/ldap-simple-tool.js -o build/ldap-simple-tool-windows.exe",
+    "build-linux": "nexe -t linux bin/ldap-simple-tool.js -o build/ldap-simple-tool-linux",
+    "build-macos": "nexe -t macos bin/ldap-simple-tool.js -o build/ldap-simple-tool-macos",
+    "build-node": "ncc build bin/ldap-simple-tool.js -o build/ldap-simple-tool && shx mv build/ldap-simple-tool/index.js build/ldap-simple-tool.js && shx rm -rf build/ldap-simple-tool && shx mv build/ldap-simple-tool.js build/ldap-simple-tool"
+  },
   "dependencies": {
     "chalk": "^3.0.0",
     "ldap-passwd": "^0.1.0",
@@ -33,5 +40,10 @@
       "*.json"
     ],
     "assets": []
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.21.1",
+    "nexe": "^3.3.2",
+    "shx": "^0.3.2"
   }
 }

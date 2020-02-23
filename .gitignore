@@ -106,3 +106,10 @@ dist
 .vscode
 
 cfg.json
+
+# Test datasource
+authusers.txt
+searchusers.txt
+
+build
+dist
