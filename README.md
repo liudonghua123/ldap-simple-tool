@@ -46,7 +46,7 @@ This is a simple ldap tool inspired by https://github.com/shanghai-edu/ldap-test
 
 ## Snapshots
 
-[![asciicast](https://asciinema.org/a/303804.svg)](https://asciinema.org/a/303804)
+[![asciicast](https://asciinema.org/a/303916.svg)](https://asciinema.org/a/303916)
 
 ## LICENSE
 
