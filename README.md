@@ -10,7 +10,7 @@ This is a simple ldap tool inspired by https://github.com/shanghai-edu/ldap-test
 
 1. Installation
 
-   - If you have node installed, simple execute `npm i -g ldap-simple-tool` or `yarn global add ldap-simple-tool`
+   - If you have node installed, simple execute `npm i -g ldap-simple-tool` or `yarn global add ldap-simple-tool` or download `ldap-simple-tool`.
 
    - If you do not have node, download the latest binary according to your OS platform in [release](https://github.com/liudonghua123/ldap-simple-tool/releases) page.
 
