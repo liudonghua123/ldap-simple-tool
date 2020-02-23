@@ -1,17 +1,32 @@
 {
   "name": "ldap-simple-tool",
   "version": "1.0.0",
-  "main": "index.js",
-  "bin": "index.js",
-  "license": "MIT",
+  "main": "lib/index.js",
+  "bin": {
+    "ldap-simple-tool": "./bin/ldap-simple-tool.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liudonghua123/ldap-simple-tool.git"
+  },
+  "keywords": [
+    "ldap",
+    "userPassword",
+    "cli"
+  ],
+  "author": "Donghua Liu",
+  "bugs": {
+    "url": "https://github.com/liudonghua123/ldap-simple-tool/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
   "dependencies": {
     "chalk": "^3.0.0",
     "ldap-passwd": "^0.1.0",
     "ldapts": "^2.2.0",
     "yargs": "^15.1.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
   },
   "pkg": {
     "scripts": [
