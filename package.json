@@ -24,9 +24,9 @@
   },
   "scripts": {
     "build": "npm run build-node && npm run build-windows && npm run build-linux && npm run build-macos",
-    "build-windows": "nexe -t windows bin/ldap-simple-tool.js -o build/ldap-simple-tool-windows.exe",
-    "build-linux": "nexe -t linux bin/ldap-simple-tool.js -o build/ldap-simple-tool-linux",
-    "build-macos": "nexe -t macos bin/ldap-simple-tool.js -o build/ldap-simple-tool-macos",
+    "build-windows": "nexe -t windows-x86-14.15.3 bin/ldap-simple-tool.js -o build/ldap-simple-tool-windows.exe",
+    "build-linux": "nexe -t linux-x64-14.15.3 bin/ldap-simple-tool.js -o build/ldap-simple-tool-linux",
+    "build-macos": "nexe -t macos-x64-14.15.3 bin/ldap-simple-tool.js -o build/ldap-simple-tool-macos",
     "build-node": "ncc build bin/ldap-simple-tool.js -o build/ldap-simple-tool && shx mv build/ldap-simple-tool/index.js build/ldap-simple-tool.js && shx rm -rf build/ldap-simple-tool && shx mv build/ldap-simple-tool.js build/ldap-simple-tool"
   },
   "dependencies": {
