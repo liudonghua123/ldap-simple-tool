@@ -4,7 +4,7 @@ const { showHelp } = require('yargs');
 const chalk = require('chalk');
 const { check, auth, search, filter } = require('../lib/index');
 const { existsSync } = require('fs');
-const { resolve } = require('path');
+const { resolve, dirname } = require('path');
 
 // https://github.com/yargs/yargs
 const argv = require('yargs')
@@ -31,11 +31,11 @@ const argv = require('yargs')
 // read the basic configuration
 let configFilePath = argv.file;
 const homedir = require('os').homedir();
-if (existsSync(resolve(argv.file))) {
-  configFilePath = resolve(argv.file);
-} else if (existsSync(resolve(process.cwd(), argv.file))) {
+if (existsSync(resolve(process.cwd(), argv.file))) {
   configFilePath = resolve(process.cwd(), argv.file);
-} else if (existsSync(resolve(homedir, argv.file))) {
+} else if (existsSync(resolve(dirname(__filename), argv.file))) {
+  configFilePath = resolve(dirname(__filename), argv.file);
+}  else if (existsSync(resolve(homedir, argv.file))) {
   configFilePath = resolve(homedir, argv.file);
 } else {
   console.info(chalk.yellow.italic(`configFilePath: ${argv.file} not exists`));
