@@ -1,6 +1,6 @@
 {
   "name": "ldap-simple-tool",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "lib/index.js",
   "bin": {
     "ldap-simple-tool": "./bin/ldap-simple-tool.js"
@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "npm run build-node && npm run build-windows && npm run build-linux && npm run build-macos",
+    "build-pkg": "pkg --debug -t node14-win-x64,node14-linux-x64,node14-macos-x64 --out-path build .",
     "build-windows": "nexe -t windows-x86-14.15.3 bin/ldap-simple-tool.js -o build/ldap-simple-tool-windows.exe",
     "build-linux": "nexe -t linux-x64-14.15.3 bin/ldap-simple-tool.js -o build/ldap-simple-tool-linux",
     "build-macos": "nexe -t macos-x64-14.15.3 bin/ldap-simple-tool.js -o build/ldap-simple-tool-macos",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@zeit/ncc": "^0.22.3",
     "nexe": "^3.3.7",
+    "pkg": "^4.5.1",
     "shx": "^0.3.3"
   }
 }
