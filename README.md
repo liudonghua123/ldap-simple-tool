@@ -14,7 +14,8 @@ This is a simple ldap tool inspired by https://github.com/shanghai-edu/ldap-test
 
    - If you do not have node, download the latest binary according to your OS platform in [release](https://github.com/liudonghua123/ldap-simple-tool/releases) page.
 
-2. Download the template config file via https://raw.githubusercontent.com/liudonghua123/ldap-simple-tool/master/cfg.conf.example, modify according to your actual environment.
+2. Download the template config file via https://raw.githubusercontent.com/liudonghua123/ldap-simple-tool/master/cfg.conf.example, modify according to your actual environment. Place it in the cwd, the location of the script or the homedir, the priority of config location is cwd > script > homedir.
+
 3. Run `ldap-simple-tool` in a terminal.
 
 ### lib usage
