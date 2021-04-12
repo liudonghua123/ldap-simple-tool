@@ -1336,10 +1336,10 @@ ldap-passwd@^0.1.3:
     debug "^4.3.1"
     yargs "^16.2.0"
 
-ldapts@^2.12.0:
+"ldapts@npm:@liudonghua123/ldapts@^2.12.0":
   version "2.12.0"
-  resolved "https://registry.npmjs.org/ldapts/-/ldapts-2.12.0.tgz#8d74de88dcebaf8f3e4fde894c75d7fa977bdc67"
-  integrity sha512-rjx0s1683rLidMghRvf0AX0JM2KJibfF100pOKgBTeAI9ZUFMt2LG4ke2wubi2ITT8A6MB0ZrotjS1uCCE2YcQ==
+  resolved "https://registry.npmjs.org/@liudonghua123/ldapts/-/ldapts-2.12.0.tgz#32d57ee178a5bcc97953824ab4f1641035177597"
+  integrity sha512-d//2NKWxdYBzcBNnj++qAK3dUGGzXTKBCdqtbxGqRxU+iV5NYboFqQHHnS6Tpo7vTEuG0Zw8+iHhfkvJCgHXzQ==
   dependencies:
     "@types/asn1" "~0.2.0"
     "@types/node" "~14.14.37"
