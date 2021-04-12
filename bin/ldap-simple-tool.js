@@ -30,15 +30,18 @@ const argv = require('yargs')
 
 // read the basic configuration
 let configFilePath = argv.file;
+const homedir = require('os').homedir();
 if (existsSync(resolve(argv.file))) {
   configFilePath = resolve(argv.file);
 } else if (existsSync(resolve(process.cwd(), argv.file))) {
   configFilePath = resolve(process.cwd(), argv.file);
+} else if (existsSync(resolve(homedir, argv.file))) {
+  configFilePath = resolve(homedir, argv.file);
 } else {
   console.info(chalk.yellow.italic(`configFilePath: ${argv.file} not exists`));
   process.exit(1);
 }
-// console.info(`process.cwd(): ${process.cwd()}, configFilePath: ${configFilePath}`);
+console.info(chalk.green.bold(`using configFilePath: ${configFilePath}`));
 
 const {
   ldap: { addr, baseDn, bindDn, bindPass, authFilter, attributes, tls, startTLS },
